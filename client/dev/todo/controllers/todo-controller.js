@@ -6,45 +6,39 @@
       '$log',
       'Todo',
       'TodoDAO',
-      function($log, Todo, TodoDAO) {
+      '$http',
+      function($log, Todo, TodoDAO, $http) {
         var self = this;
 
-        self.theBestVideo = "sMKoNBRZM1M";
-
+        self.ids = ["sMKoNBRZM1M","tntOCGkgt98", "kffacxfA7G4"];
+        self.searched =false;
         self.todo = new Todo();
         self.todos = [];
 
         self.createTodo = function(todo) {
-          debugger;
-          TodoDAO
-            .createTodo(todo)
-            .then(function(newTodo) {
-              self.todos.push(newTodo);
-              self.todo = new Todo();
-            })
-            .catch($log.error);
+          self.searched = true;
+          searchVideos(null, todo.todoMessage);
         };
 
-        function _getAll() {
-          return TodoDAO
-            .getAll()
-            .then(function(todos) {
-              self.todos = todos;
-              return self.todos;
-            })
-            .catch($log.error);
-        }
-
-        self.deleteTodo = function(id) {
-          TodoDAO
-            .deleteTodo(id)
-            .then(function() {
-              return _getAll();
-            })
-            .catch($log.error);
+        var searchVideos = function (isNewQuery, query) {
+          $http.get('https://www.googleapis.com/youtube/v3/search', {
+            params: {
+              key: 'AIzaSyAGtX0a8ICU-ih6JysuKlOke64BXhG8ysA',
+              type: 'video',
+              maxResults: '10',
+              pageToken: isNewQuery ? '' : null,
+              part: 'id,snippet',
+              q: query
+            }
+          })
+          .success( function (data) {
+            console.log('data', data);
+            self.ids = data.items;
+          })
+          .error( function () {
+            console.log('boo');
+          });
         };
-
-        _getAll();
 
         return self;
       }

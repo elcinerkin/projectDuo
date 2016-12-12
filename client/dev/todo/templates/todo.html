@@ -50,11 +50,11 @@
                 class="btn btn-success btn-block btn-lg submit-todo"
                 ng-disabled="TodoForm.$invalid || !todoCtrl.todo.isValid()"> ADD </button>
     </form>
-
-
-    <div ng-repeat="id in ids">
-      <youtube ng-if="searched" width="640" height="390" style="margin=30px;padding:20px" videoid={{id}}></youtube>
-    </div>
-
   </div>
+
+      <div ng-repeat="id in todoCtrl.ids">
+        {{id.id.videoId}}
+        <youtube ng-if="todoCtrl.searched" width="640" height="390" style="margin=30px;padding:20px" videoid="{{id}}"></youtube>
+      </div>
+
 </div>
