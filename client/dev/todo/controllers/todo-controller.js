@@ -5,19 +5,17 @@
     .controller('TodoController', [
       '$log',
       'Todo',
-      'TodoDAO',
       '$http',
-      function($log, Todo, TodoDAO, $http) {
+      function($log, Todo, $http) {
         var self = this;
 
-        self.ids = ["sMKoNBRZM1M","tntOCGkgt98", "kffacxfA7G4"];
+        self.ids = [];
         self.searched =false;
-        self.todo = new Todo();
-        self.todos = [];
+        self.name = new Todo();
 
-        self.createTodo = function(todo) {
+        self.searchName = function(name) {
           self.searched = true;
-          searchVideos(null, todo.todoMessage);
+          searchVideos(null, name.keyword);
         };
 
         var searchVideos = function (isNewQuery, query) {
@@ -32,7 +30,6 @@
             }
           })
           .success( function (data) {
-            console.log('data', data);
             self.ids = data.items;
           })
           .error( function () {
@@ -44,48 +41,18 @@
       }
     ])
 
-    .directive('youtube', function($window) {
-      return {
-        restrict: "E",
-
-        scope: {
-          height:   "@",
-          width:    "@",
-          videoid:  "@"  
-        },
-
-        template: '<div></div>',
-
-        link: function(scope, element) {
-          var tag = document.createElement('script');
-          tag.src = "https://www.youtube.com/iframe_api";
-          var firstScriptTag = document.getElementsByTagName('script')[0];
-          firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-          var player;
-
-          $window.onYouTubeIframeAPIReady = function() {
-            player = new YT.Player(element.children()[0], {
-
-              playerVars: {
-                autoplay: 0,
-                html5: 1,
-                theme: "light",
-                modesbranding: 0,
-                color: "white",
-                iv_load_policy: 3,
-                showinfo: 1,
-                controls: 1,
-              },
-
-              height: scope.height,
-              width: scope.width,
-              videoId: scope.videoid
-            });
-          };
-        },  
+  .directive('myoutube', function($sce) {
+    return {
+      restrict: 'E',
+      scope: { code:'@' },
+      template: '<div style="float:left;padding:10px;margin:20px">' +
+                  '<iframe style="overflow:hidden;height:200px;width:350px" width="100%" height="100%" src="{{url}}" frameborder="0" >' + 
+                  '</iframe>' +
+                '</div>',
+      link: function (scope) {
+        scope.url = $sce.trustAsResourceUrl("http://www.youtube.com/embed/" + scope.code);
       }
-    });
-
+    };
+  });
 
 }(window.angular));

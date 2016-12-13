@@ -1,19 +1,19 @@
-.todo-panel {
+.search-panel {
   width: 100%;
   margin: 30px auto;
   padding: 0 25px 25px;
 }
 
-.todos-container {
+.searchs-container {
   font-size: 17px;
   border-radius: 0;
 }
 
-.todo-in-todos {
+.search-in-searchs {
   position: relative;
 }
 
-.todo-done {
+.search-done {
   position: absolute;
   right: 0;
   top: 0;

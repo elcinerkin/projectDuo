@@ -3,7 +3,7 @@
 if (process.env.NODE_ENV === 'production')
     require('newrelic');
 
-const PORT = process.env.PORT || 3333;
+const PORT = 8000;
 
 const os = require('os');
 const http = require('http');

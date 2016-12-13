@@ -1,8 +1,7 @@
 <div class="container">
 
-  <div class="todo-panel transition">
-
-      <div class="title-container">
+  <div class="search-panel transition">
+    <div class="title-container">
         <h1 class="text-muted text-center">
 
           <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="75px" height="75px" display="block" margin="auto"
@@ -23,38 +22,25 @@
           Angular Capstone Project 
 
         </h1>
-      </div>
-
+    </div>
   </div>
-
+  
   <div class="search">
+    <label>Search</label>
 
-    <form name="TodoForm"
-          ng-submit="todoCtrl.createTodo(todoCtrl.todo)" >
+    <input type="text"
+           ng-model="todoCtrl.name.keyword"
+           name="todoMsg"
+           autofocus />
 
-      <h3>Search</h3>
-
-      <input type="text"
-               class="form-control input-lg"
-               ng-model="todoCtrl.todo.todoMessage"
-               name="todoMsg"
-               maxlength="15"
-               ng-maxlength="50"
-               ng-minlength="5"
-               required
-               autofocus />
-
-
-      <button type="submit"
-                id="submit-todo-button"
-                class="btn btn-success btn-block btn-lg submit-todo"
-                ng-disabled="TodoForm.$invalid || !todoCtrl.todo.isValid()"> ADD </button>
-    </form>
+    <button type="submit"
+            id="submit-search-button"
+            class="btn btn-secondary submit-search"
+            ng-click="todoCtrl.searchName(todoCtrl.name)"> Submit </button>
   </div>
 
-      <div ng-repeat="id in todoCtrl.ids">
-        {{id.id.videoId}}
-        <youtube ng-if="todoCtrl.searched" width="640" height="390" style="margin=30px;padding:20px" videoid="{{id}}"></youtube>
-      </div>
+  <div ng-repeat="id in todoCtrl.ids">
+    <myoutube ng-if="todoCtrl.searched" code="{{id.id.videoId}}"></myoutube>
+  </div>
 
 </div>
